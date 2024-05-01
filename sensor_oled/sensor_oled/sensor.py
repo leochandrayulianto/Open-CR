@@ -15,6 +15,8 @@ serial_port = serial.Serial(
     stopbits=serial.STOPBITS_ONE,
 )
 
+serial_port.flush()
+
 strategyNumber = 0
 kill = 0 
 
@@ -30,18 +32,18 @@ def main(args=None):
     msg_button = Button()
     dataIn = []
     lastState = 0
+    data = ""
     try:
         while rclpy.ok():
             time.sleep(0.05)
             if serial_port.inWaiting() > 0:
                 data = serial_port.read()
-                # print(data)
                 dataStr = data.decode("utf-8")
+                print("dataStr : ",dataStr)
                 if dataStr != '\x00':
                     dataIn.append(dataStr)
-                    # print(dataIn)
+                    
                 if len(dataIn) == 2:
-                    # print(dataIn)
                     if dataIn[1] != '\x00' or dataIn[1] != '*' or dataIn[1] != '#':
                         if dataIn[0] == '*':
                             kill = int(dataIn[1])
@@ -49,15 +51,11 @@ def main(args=None):
                         elif dataIn[0] == '#':
                             strategyNumber = int(dataIn[1])
                             dataIn.clear()
-                #print(kill, strategyNumber)
+                        dataIn.clear()
+                print(kill, strategyNumber)
             msg_button.kill = kill
             msg_button.strategy = strategyNumber
             pub_button.publish(msg_button)
-
-    except UnicodeDecodeError:
-        # Handle the error here
-        print("There was an encoding error. Please check your data.")
-        serial.flush()
                     
     except KeyboardInterrupt:
         print("Exiting Program")
