@@ -19,7 +19,7 @@
 #define DXL_NODE_OP3_ID                   200         // 0xC8
 #define DXL_NODE_OP3_MODLE_NUMBER         0x7400
 #define DXL_NODE_OP3_FW_VER               0x02
-#define DXL_NODE_OP3_BAUD                 4
+#define DXL_NODE_OP3_BAUD                 3
 
 #define button1Pin  50    // button strategy
 #define button2Pin  51    // ------ kill
@@ -40,7 +40,7 @@ typedef struct
   uint16_t Model_Number;                  // 0
   uint8_t  Firmware_Version;              // 2
   uint8_t  ID;                            // 3
-  uint8_t  Baud;                          // 4
+  uint8_t  Baud;                          // 3
   uint8_t  Return_Delay_Time;             // 5
   uint8_t  Dummy1[10];                    // 6
   uint8_t  Status_Return_Level;           // 16
